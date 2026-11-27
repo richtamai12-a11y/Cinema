@@ -1,6 +1,6 @@
-# Cinema
+# Kino
 
-App personale sul cinema per iPhone: notizie, film in sala in Italia, prossime uscite, dove vederlo in streaming e la lista "Da vedere / Visti".
+Kino è la mia app personale sul cinema per iPhone: notizie, film in sala in Italia, prossime uscite, dove vederlo in streaming e la lista "Da vedere / Visti".
 
 - `docs/` è l'app (pubblicata con GitHub Pages)
 - `worker/` è il piccolo servizio Cloudflare che parla con TMDB e legge i feed RSS

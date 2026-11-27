@@ -1,4 +1,4 @@
-/* App Cinema · web app personale. Nessuna libreria esterna. */
+/* Kino · web app personale. Nessuna libreria esterna. */
 (() => {
 'use strict';
 
@@ -203,7 +203,7 @@ function greeting() {
 async function pageHome(el) {
   el.innerHTML = `<div class="page">
     <header class="home-head">
-      <div class="stack" style="gap:2px"><span class="greet">${esc(greeting())}</span><h1>Cinema</h1></div>
+      <div class="stack" style="gap:2px"><span class="greet">${esc(greeting())}</span><h1>Kino</h1></div>
       <div class="row" style="gap:8px">
         <a class="icon-btn" href="#/cerca" aria-label="Cerca">${I.search}</a>
         <a class="icon-btn" href="#/info" aria-label="Impostazioni e crediti">${I.gear}</a>
@@ -700,9 +700,9 @@ async function pageInfo(el) {
     if (!b) return;
     if (b.dataset.act === 'export') {
       const data = JSON.stringify({ app: 'cinema', version: 1, savedAt: new Date().toISOString(), list: List.all(), settings: Settings.get() }, null, 1);
-      const file = new File([data], `cinema-lista-${todayISO()}.json`, { type: 'application/json' });
+      const file = new File([data], `kino-lista-${todayISO()}.json`, { type: 'application/json' });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try { await navigator.share({ files: [file], title: 'Copia lista Cinema' }); } catch { /* annullato */ }
+        try { await navigator.share({ files: [file], title: 'Copia lista Kino' }); } catch { /* annullato */ }
       } else {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(file); a.download = file.name; a.click();
