@@ -1,5 +1,5 @@
 // Fa funzionare l'app anche con poca rete: guscio dell'app in cache, dati aggiornati quando possibile.
-const VERSION = 'cinema-v6';
+const VERSION = 'cinema-v7';
 const SHELL = ['./', 'index.html', 'app.css?v=1', 'app.js?v=3', 'config.js?v=2', 'manifest.webmanifest', 'icons/apple-touch-icon.png?v=2', 'icons/icon-192.png?v=2', 'icons/icon-512.png'];
 
 self.addEventListener('install', (e) => {
@@ -33,12 +33,14 @@ self.addEventListener('fetch', (e) => {
     }).catch(() => caches.open('cinema-data').then((c) => c.match(req)).then((r) => r || Response.error())));
     return;
   }
-  // File dell'app: cache, aggiornata in sottofondo
+  // File dell'app: prima la rete (così gli aggiornamenti arrivano subito), senza rete la cache
   if (url.origin === self.location.origin) {
-    e.respondWith(caches.open(VERSION).then(async (c) => {
-      const hit = await c.match(req, { ignoreSearch: req.mode === 'navigate' });
-      const net = fetch(req).then((res) => { if (res.ok) c.put(req, res.clone()); return res; }).catch(() => null);
-      return hit || (await net) || c.match('index.html');
+    e.respondWith(fetch(req).then((res) => {
+      if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); }
+      return res;
+    }).catch(async () => {
+      const c = await caches.open(VERSION);
+      return (await c.match(req, { ignoreSearch: req.mode === 'navigate' })) || c.match('index.html');
     }));
   }
 });
