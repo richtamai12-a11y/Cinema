@@ -193,17 +193,11 @@ function renderTabbar() {
 }
 
 // ---------- pagine ----------
-function greeting() {
-  const h = new Date().getHours();
-  const name = Settings.get().name;
-  const w = h < 6 ? 'Buonanotte' : h < 13 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera';
-  return name ? `${w}, ${name}` : w;
-}
 
 async function pageHome(el) {
   el.innerHTML = `<div class="page">
     <header class="home-head">
-      <div class="stack" style="gap:2px"><span class="greet">${esc(greeting())}</span><h1>Kino</h1></div>
+      <h1>Kino</h1>
       <div class="row" style="gap:8px">
         <a class="icon-btn" href="#/cerca" aria-label="Cerca">${I.search}</a>
         <a class="icon-btn" href="#/info" aria-label="Impostazioni e crediti">${I.gear}</a>
@@ -678,7 +672,6 @@ async function pageInfo(el) {
   const counts = { todo: List.todo().length, seen: List.seen().length };
   el.innerHTML = `<div class="page">
     <div class="titlebar"><a class="icon-btn" href="#/" data-back aria-label="Indietro">${I.back}</a><h1 class="h1">Impostazioni</h1></div>
-    <label class="field"><span>Il tuo nome (per il saluto)</span><input id="name" value="${esc(s.name)}" autocomplete="given-name"></label>
     <section class="section">
       <h2 class="h2">La tua lista</h2>
       <p class="small muted">${counts.todo} da vedere, ${counts.seen} visti. La lista è salvata solo su questo telefono: ogni tanto fai una copia.</p>
@@ -694,7 +687,6 @@ async function pageInfo(el) {
     </section>
     <p class="tiny">App personale, non pubblicata. Versione 1.0</p>
   </div>`;
-  $('#name', el).addEventListener('change', (e) => { Settings.set({ name: e.target.value.trim() }); toast('Salvato'); });
   el.addEventListener('click', async (ev) => {
     const b = ev.target.closest('[data-act]');
     if (!b) return;
@@ -784,6 +776,18 @@ function route() {
 function closeSheetSilently() { sheetDone = null; sheetRoot.innerHTML = ''; }
 window.addEventListener('hashchange', () => { navStack++; route(); });
 route();
+
+// schermata d'avvio: le lampadine si accendono, poi sparisce
+(function splash() {
+  const sp = document.getElementById('splash');
+  if (!sp) return;
+  const start = performance.now();
+  const fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  Promise.race([fonts, new Promise((r) => setTimeout(r, 1500))]).then(() => {
+    const wait = Math.max(0, 1300 - (performance.now() - start));
+    setTimeout(() => { sp.classList.add('out'); setTimeout(() => sp.remove(), 450); }, wait);
+  });
+})();
 
 // ---------- funzionamento offline ----------
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
