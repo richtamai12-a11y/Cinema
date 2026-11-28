@@ -1,6 +1,6 @@
 // Fa funzionare l'app anche con poca rete: guscio dell'app in cache, dati aggiornati quando possibile.
-const VERSION = 'cinema-v5';
-const SHELL = ['./', 'index.html', 'app.css?v=1', 'app.js?v=2', 'config.js?v=2', 'manifest.webmanifest', 'icons/apple-touch-icon.png?v=2', 'icons/icon-192.png?v=2', 'icons/icon-512.png'];
+const VERSION = 'cinema-v6';
+const SHELL = ['./', 'index.html', 'app.css?v=1', 'app.js?v=3', 'config.js?v=2', 'manifest.webmanifest', 'icons/apple-touch-icon.png?v=2', 'icons/icon-192.png?v=2', 'icons/icon-512.png'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));

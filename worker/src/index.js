@@ -42,7 +42,7 @@ export default {
     try {
       const p = url.pathname;
       if (p === '/' || p === '/api/status') {
-        return json({ ok: true, chiave_tmdb: Boolean(env.TMDB_KEY) }, 200, cors);
+        return json({ ok: true, versione: '2026-11-28c', chiave_tmdb: Boolean(env.TMDB_KEY) }, 200, cors);
       }
       if (p === '/api/news') {
         return withCors(await cached(request, ctx, 900, () => getNews()), cors);

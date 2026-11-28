@@ -231,7 +231,7 @@ async function pageHome(el) {
       : '<div class="empty">Nessuna notizia al momento.</div>';
   }).catch((e) => { const x = $('#h-news', el); if (x) x.innerHTML = errorBox(e); });
 
-  api('/api/now-playing?v=2').then((d) => {
+  api('/api/now-playing?v=4').then((d) => {
     const items = remember(d.results || []).slice(0, 12);
     $('#h-cinema', el).innerHTML = items.map((m) => `<a class="hcard" href="${filmHref(m.id)}">${poster(m.poster_path, m.title)}<span>${esc(m.title)}</span></a>`).join('') || '<div class="empty">Nessun film trovato.</div>';
   }).catch((e) => { const x = $('#h-cinema', el); if (x) x.innerHTML = errorBox(e); });
@@ -258,7 +258,7 @@ async function pageCinema(el) {
     <p class="tiny">Film in sala in Italia secondo TMDB.</p>
   </div>`;
   let data;
-  try { data = remember((await api('/api/now-playing?v=2')).results || []); } catch (e) { $('#c-list', el).innerHTML = errorBox(e); return; }
+  try { data = remember((await api('/api/now-playing?v=4')).results || []); } catch (e) { $('#c-list', el).innerHTML = errorBox(e); return; }
 
   const counts = {};
   data.forEach((m) => (m.genres || []).forEach((g) => { counts[g] = (counts[g] || 0) + 1; }));
