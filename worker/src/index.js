@@ -194,8 +194,11 @@ async function getNowPlaying(env) {
       directors: (d.credits?.crew || []).filter((c) => c.job === 'Director').map((c) => c.name),
     });
   });
-  results.sort((a, b) => String(b.it_date).localeCompare(String(a.it_date)));
-  return { updated: new Date().toISOString(), results };
+  // solo i film già usciti in Italia (TMDB include anche quelli in arrivo nei prossimi giorni)
+  const today = todayIT();
+  const inSala = results.filter((m) => !m.it_date || m.it_date <= today);
+  inSala.sort((a, b) => String(b.it_date).localeCompare(String(a.it_date)));
+  return { updated: new Date().toISOString(), results: inSala };
 }
 
 // Prossime uscite in Italia: al cinema (tipi 2/3) o in digitale/streaming (tipo 4).
