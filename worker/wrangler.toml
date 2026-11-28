@@ -1,6 +1,8 @@
 name = "cinema-api"
 main = "src/index.js"
 compatibility_date = "2025-11-01"
+# Non cancellare le variabili inserite dal pannello Cloudflare
+keep_vars = true
 
 # La chiave TMDB NON va qui: si aggiunge come secret "TMDB_KEY"
 # dal pannello Cloudflare (Settings > Variables and Secrets).

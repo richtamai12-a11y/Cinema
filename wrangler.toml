@@ -3,3 +3,5 @@
 name = "cinema-api"
 main = "worker/src/index.js"
 compatibility_date = "2025-11-01"
+# Non cancellare le variabili inserite dal pannello Cloudflare
+keep_vars = true
