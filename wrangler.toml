@@ -1,0 +1,5 @@
+# Copia di sicurezza: permette a Cloudflare di pubblicare il servizio
+# anche se il progetto è stato collegato alla cartella principale.
+name = "cinema-api"
+main = "worker/src/index.js"
+compatibility_date = "2025-11-01"
